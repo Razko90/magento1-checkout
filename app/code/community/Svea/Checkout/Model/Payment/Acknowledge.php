@@ -38,7 +38,7 @@ class Svea_Checkout_Model_Payment_Acknowledge
             $useForReference = Mage::getStoreConfig('payment/sveacheckout_dev_settings/reference');
             if (in_array($useForReference , ['suffixed-increment-id','suffixed-order-id'])) {
                 $reference = $sveaReference;
-                $separator = '_';
+                $separator = '_o_m1_';
                 $lastChar = strrpos ($reference , $separator,0);
                 $reference = substr($reference,0, $lastChar);
                 if ($useForReference == 'suffixed-increment-id') {

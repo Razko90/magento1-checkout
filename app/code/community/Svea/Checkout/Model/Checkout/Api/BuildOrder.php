@@ -183,7 +183,7 @@ class Svea_Checkout_Model_Checkout_Api_BuildOrder
         //To avoid order already being created, if you for example have
         //stageEnv/devEnv and ProductionEnv with quote id in same range.
         $allowedLength = 32;
-        $separator = '_';
+        $separator     = '_q_m1_';
         $lengthOfHash  = $allowedLength - (strlen((string)$quoteId) + strlen($separator));
         $hashedBaseUrl = sha1(Mage::getBaseUrl());
         $clientId      = $quoteId . $separator . mb_substr($hashedBaseUrl, 0, $lengthOfHash);

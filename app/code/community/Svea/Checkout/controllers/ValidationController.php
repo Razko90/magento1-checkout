@@ -152,7 +152,7 @@ class Svea_Checkout_ValidationController
         //To avoid order already being created, if you for example have
         //stageEnv/devEnv and ProductionEnv with quote id in same range.
         $allowedLength = 32;
-        $separator = '_';
+        $separator     = '_o_m1_';
         $lengthOfHash  = $allowedLength - (strlen((string)$reference) + strlen($separator));
         $hashedBaseUrl = sha1(Mage::getBaseUrl());
         $clientId      = $reference . $separator . mb_substr($hashedBaseUrl, 0, $lengthOfHash);
