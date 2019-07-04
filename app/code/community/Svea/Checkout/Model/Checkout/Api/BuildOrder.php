@@ -467,28 +467,13 @@ class Svea_Checkout_Model_Checkout_Api_BuildOrder
 
         $methodTitle = $shippingAddress->getShippingDescription();
 
-
-        if ($noSave) {
-            $ratesCollection = $shippingAddress->getShippingRatesCollection();
-            foreach ($ratesCollection as $rate) {
-                if ($rate->getCode() == $method) {
-                    $methodTitle = $rate->getCarrierTitle() . ' - ' . $rate->getData('method_title');
-                    $didNotLoadFromQuote = true;
-                    $fallbackPrice  = $rate->getPrice();
-                }
-            }
-        }
-
         //Add shipping to SveaOrder.
-        $shipping       = $quote->getShippingAddress();
         $vatPercent     = 0;
         $shippingTitle  = ($methodTitle)
                         ? mb_substr($methodTitle, 0, 40)
                         : Mage::helper('sveacheckout')->__('Shipping');
-        $shippingPrice  = ($didNotLoadFromQuote)
-                        ? $fallbackPrice
-                        : $shipping->getShippingInclTax();
-        $appliedTaxes   = $shipping->getAppliedTaxes();
+        $shippingPrice  = $shippingAddress->getShippingInclTax();
+        $appliedTaxes   = $shippingAddress->getAppliedTaxes();
         $appliedTaxes   = reset($appliedTaxes);
         if (isset($appliedTaxes['percent'])) {
             $vatPercent = $appliedTaxes['percent'];
