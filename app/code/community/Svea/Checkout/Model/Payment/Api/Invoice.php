@@ -166,14 +166,14 @@ class Svea_Checkout_Model_Payment_Api_Invoice
             $partialActionRow = WebPayItem::numberedOrderRow()
                 ->setRowNumber($key)
                 ->setArticleNumber($referenceNumber . '-' . $item['Name'])
-                ->setAmountIncVat((float)$item['newDiscount']*-1)
+                ->setAmountIncVat((float)round($item['newDiscount']*-1, 2))
                 ->setVatPercent((int)$item['VatPercent'])
                 ->setQuantity($item['Quantity']);
 
             $restOfRowQty = WebPayItem::orderRow()
                 ->setArticleNumber($item['ArticleNumber'])
                 ->setName($item['Name'])
-                ->setAmountIncVat((float)$rest)
+                ->setAmountIncVat((float)round($rest, 2))
                 ->setVatPercent((int)$item['VatPercent'])
                 ->setQuantity((int)$item['Quantity']);
 
@@ -215,14 +215,14 @@ class Svea_Checkout_Model_Payment_Api_Invoice
             $partialActionRow = WebPayItem::numberedOrderRow()
                 ->setRowNumber($key)
                 ->setArticleNumber($referenceNumber .'-'. $item['ArticleNumber'])
-                ->setAmountIncVat((float) $item['UnitPrice'])
+                ->setAmountIncVat((float)round($item['UnitPrice'], 2))
                 ->setVatPercent((int) $item['VatPercent'])
                 ->setQuantity($adjustQty);
 
             $restOfRowQty     = WebPayItem::orderRow()
                 ->setArticleNumber($item['ArticleNumber'])
                 ->setName($item['Name'])
-                ->setAmountIncVat((float)$item['UnitPrice'])
+                ->setAmountIncVat((float)round($item['UnitPrice'],2))
                 ->setVatPercent((int)$item['VatPercent'])
                 ->setQuantity((int)$rest);
 
@@ -299,7 +299,7 @@ class Svea_Checkout_Model_Payment_Api_Invoice
                 WebPayAdmin::creditAmount($sveaConfig)
                     ->setCheckoutOrderId($sveaOrderId)
                     ->setDeliveryId($deliveryKey)
-                    ->setAmountIncVat((float)$refundAmount)
+                    ->setAmountIncVat((float)round($refundAmount,2))
                     ->creditCheckoutAmount()
                     ->doRequest();
                 $sveaOrder = $this->_getCheckoutOrder($order);
@@ -318,7 +318,7 @@ class Svea_Checkout_Model_Payment_Api_Invoice
                     WebPayAdmin::creditAmount($sveaConfig)
                         ->setCheckoutOrderId($sveaOrderId)
                         ->setDeliveryId($deliveryKey)
-                        ->setAmountIncVat((float)$refundAmount)
+                        ->setAmountIncVat((float)round($refundAmount,2))
                         ->creditCheckoutAmount()
                         ->doRequest();
 
@@ -585,7 +585,7 @@ class Svea_Checkout_Model_Payment_Api_Invoice
                     $chosenItems[$key]               = $row;
                     $qty                             = $items[$itemKey]['qty'];
                     $chosenItems[$key]['action_qty'] = (float)$qty;
-                    $chosenItems[$key]['newDiscount'] = (float)$items[$itemKey]['newDiscount'];
+                    $chosenItems[$key]['newDiscount'] = (float)round($items[$itemKey]['newDiscount'],2);
                 }
             } else {
                 $itemKey = array_search($row['Name'], array_column($items, 'sku'));
@@ -593,7 +593,7 @@ class Svea_Checkout_Model_Payment_Api_Invoice
                     $chosenItems[$key]               = $row;
                     $qty                             = $items[$itemKey]['qty'];
                     $chosenItems[$key]['action_qty'] = (float)$qty;
-                    $chosenItems[$key]['newDiscount'] = (float)$items[$itemKey]['newDiscount'];
+                    $chosenItems[$key]['newDiscount'] = (float)round($items[$itemKey]['newDiscount'],2);
                 }
             }
 

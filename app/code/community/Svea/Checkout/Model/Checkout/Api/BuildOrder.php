@@ -350,7 +350,7 @@ class Svea_Checkout_Model_Checkout_Api_BuildOrder
 
             $qty = $item->getQty() * $multiply;
             $orderRowItem = WebPayItem::orderRow()
-                ->setAmountIncVat((float)$item->getPriceInclTax())
+                ->setAmountIncVat((float)round($item->getPriceInclTax(),2))
                 ->setVatPercent((int)round($item->getTaxPercent()))
                 ->setQuantity((float)round($qty, 2))
                 ->setArticleNumber($prefix . $item->getSku())
@@ -362,7 +362,7 @@ class Svea_Checkout_Model_Checkout_Api_BuildOrder
                 $itemRowDiscount = WebPayItem::fixedDiscount()
                     ->setName(mb_substr(sprintf('discount-%s', $prefix . $item->getId()), 0, 40))
                     ->setVatPercent((int)round($item->getTaxPercent()))
-                    ->setAmountIncVat((float)$item->getDiscountAmount());
+                    ->setAmountIncVat((float)round($item->getDiscountAmount(),2));
 
                 $sveaOrder->addDiscount($itemRowDiscount);
             }
@@ -482,7 +482,7 @@ class Svea_Checkout_Model_Checkout_Api_BuildOrder
         $shippingFee = WebPayItem::shippingFee()
             ->setName((string)$shippingTitle)
             ->setVatPercent((int)$vatPercent)
-            ->setAmountIncVat((float)$shippingPrice);
+            ->setAmountIncVat((float)round($shippingPrice,2));
 
         $sveaOrder->addFee($shippingFee);
 
