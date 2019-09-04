@@ -25,7 +25,7 @@ class Svea_Checkout_PushController
 
         if (!$orderQueueItem->getId()) {
 
-            return $this->reportAndReturn(404, "QueueItem {$quoteId} not found in queue.");
+            return $this->reportAndReturn(404, "Quote {$quoteId} not found in queue.");
         }
         try {
             $quote = $this->_getQuoteById($quoteId);

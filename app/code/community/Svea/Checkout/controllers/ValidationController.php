@@ -25,8 +25,16 @@ class Svea_Checkout_ValidationController
         $orderQueueItem  = Mage::getModel('sveacheckout/queue')->load($quoteId, 'quote_id');
 
         if (!$orderQueueItem->getId()) {
+            $quote   = $this->_getQuoteById($quoteId);
+            if ($quote->getId() && $quote->getIsActive()) {
 
-            return $this->reportAndReturn(204, "QueueItem {$quoteId} not found in queue.");
+                Mage::helper('sveacheckout/Debug')->writeToLog(
+                    "quote: {$quoteId} had no queueitem, got quote from ID"
+                );
+            } else {
+
+                return $this->reportAndReturn(204, "QueueItem {$quoteId} not found in queue.");
+            }
         }
 
         try {
