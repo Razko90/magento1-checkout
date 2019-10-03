@@ -117,12 +117,12 @@ class Svea_Checkout_Model_Payment_CreateOrder
         $customer         = new Varien_Object($data->getData('Customer'));
 
         $fakeFull = explode(' ', $billingAddress->getData('FullName'));
-        $fakeLast = (isset($fakeFull[0])) ? $fakeFull[0] : $notNull;
+        $fakeLast = (isset($fakeFull[0]) && !empty($fakeFull[0])) ? $fakeFull[0] : $notNull;
         if (isset($fakeFull[0])) { unset($fakeFull[0]); }
         $fakeFirst = (end($fakeFull)) ? implode(' ', $fakeFull) : $notNull;
 
         $fakeFullShipping = explode(' ', $shippingAddress->getData('FullName'));
-        $fakeLastShipping = (isset($fakeFullShipping[0])) ? $fakeFullShipping[0] : $notNull;
+        $fakeLastShipping = (isset($fakeFullShipping[0]) && !empty($fakeFullShipping[0])) ? $fakeFullShipping[0] : $notNull;
         if (isset($fakeFullShipping[0])) { unset($fakeFullShipping[0]); }
         $fakeFirstShipping = (end($fakeFullShipping)) ? implode(' ', $fakeFullShipping) : $notNull;
 
@@ -148,10 +148,9 @@ class Svea_Checkout_Model_Payment_CreateOrder
                 ? $reference
                 : $billingFirstname;
         }
-        $billingLastname  = ($billingAddress->getData('LastName'))
+        $billingLastname  = !empty(trim(($billingAddress->getData('LastName'))))
             ? $billingAddress->getData('LastName')
             : $fakeLast;
-
 
         $street = implode(
             "\n",
@@ -169,7 +168,7 @@ class Svea_Checkout_Model_Payment_CreateOrder
 
         }
 
-        $street  = ($street) ? $street : $notNull;
+        $street  = !empty(trim($street)) ? $street : $notNull;
         $city    = $billingAddress->getData('City');
         $city    = $city ? $city : $notNull;
         $zip     = $billingAddress->getData('PostalCode');
@@ -192,12 +191,12 @@ class Svea_Checkout_Model_Payment_CreateOrder
         if (true == $customer->getData('IsCompany') && $reference) {
             $shippingFirstname = $reference;
         } else {
-            $shippingFirstname = ($shippingAddress->getData('FirstName'))
+            $shippingFirstname = !empty(trim($shippingAddress->getData('FirstName')))
                 ? $shippingAddress->getData('FirstName')
                 : $fakeFirstShipping;
         }
 
-        $shippingLastname = $shippingAddress->getData('LastName')
+        $shippingLastname = !empty(trim($shippingAddress->getData('LastName')))
             ? $shippingAddress->getData('LastName')
             : $fakeLastShipping;
 
@@ -216,7 +215,7 @@ class Svea_Checkout_Model_Payment_CreateOrder
             );
         }
 
-        $street  = ($street) ? $street : $notNull;
+        $street  = !empty(trim($street)) ? $street : $notNull;
         $city    = $shippingAddress->getData('City');
         $city    = ($city) ? $city : $notNull;
         $zip     = $shippingAddress->getData('PostalCode');
