@@ -43,6 +43,15 @@ class Svea_Checkout_ValidationController
             Mage::app()->setCurrentStore($storeId);
             $svea->setQuote($quote)->setLocales($sveaOrder, $quote);
             $orderId = $quote->getPaymentReference();
+
+            if (!$orderId) {
+                $svea      = Mage::getModel('sveacheckout/Checkout_Api_BuildOrder');
+                $sveaOrder = $svea->createSveaOrderFromQuote($quote);
+                $response  = $sveaOrder->createOrder();
+                $orderId   = $response['OrderId'];
+                $quote->setPaymentReference($orderId)->save();
+            }
+
         } catch (Exception $ex) {
 
             return $this->reportAndReturn(207, $quoteId . ' : ' . $ex->getMessage());
@@ -59,12 +68,10 @@ class Svea_Checkout_ValidationController
 
             $responseObject = new Varien_Object($response);
 
-
             if (!($quote->getPayment()->getMethod())) {
                 $payment = $quote->getPayment();
                 $payment->setMethod('sveacheckout');
             }
-
 
             $createdOrder = Mage::getModel('sveacheckout/Payment_CreateOrder')
                 ->createOrder($quote, $responseObject, $orderQueueItem);
