@@ -187,6 +187,10 @@ SveaCheckout.prototype = {
           that.updateCoupon(event);
         }
       }
+
+      if (el.name == 'shipping_method') {
+        that.updateShipping(event);
+      }
     });
 
     /**
@@ -370,7 +374,8 @@ SveaCheckout.prototype = {
        * Remove loading state
        */
       $('sveacheckout-wrapper').removeClassName('loading');
-      if (typeof window.scoApi !== 'Undefined') {
+
+      if (typeof window.scoApi !== 'undefined') {
         window.scoApi.setCheckoutEnabled(true);
       }
     }.bind(this));
@@ -443,7 +448,7 @@ SveaCheckout.prototype = {
      */
     document.addEventListener("startingAjaxFail", function (event) {
       $('sveacheckout-wrapper').removeClassName('loading');
-      if (typeof window.scoApi !== 'Undefined') {
+      if (typeof window.scoApi !== 'undefined') {
         window.scoApi.setCheckoutEnabled(true);
       }
     }.bind(this));
@@ -490,7 +495,9 @@ SveaCheckout.prototype = {
         if (data.value !== oldValue) {
           jQuery('#postcode').val(data.value);
           var change = new CustomEvent('change');
-          document.getElementById('shipping-zip-form').dispatchEvent(change);
+          var shippingZipForm = document.getElementById('shipping-zip-form');
+          if (shippingZipForm != null)
+            document.getElementById('shipping-zip-form').dispatchEvent(change);
         }
       });
     } else {

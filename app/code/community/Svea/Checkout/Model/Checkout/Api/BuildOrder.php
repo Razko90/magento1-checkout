@@ -486,6 +486,18 @@ class Svea_Checkout_Model_Checkout_Api_BuildOrder
 
         $sveaOrder->addFee($shippingFee);
 
+        //Add shipping discount
+        if ((float)$shippingAddress->getShippingDiscountAmount()) {
+            if (!$vatPercent && ($shippingAddress->getShippingInclTax() != $shippingAddress->getShippingAmount())) {
+                $vatCalc = $shippingAddress->getShippingInclTax()/$shippingAddress->getShippingAmount();
+            }
+            $itemRowDiscount = WebPayItem::fixedDiscount()
+                ->setName(mb_substr(sprintf('discount-%s', $methodTitle ), 0, 40))
+                ->setVatPercent((int)round($vatPercent))
+                ->setAmountIncVat((float)round($shippingAddress->getShippingDiscountAmount()*($vatCalc),2));
+            $sveaOrder->addDiscount($itemRowDiscount);
+        }
+
         return $this;
     }
 
