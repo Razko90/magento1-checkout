@@ -39,7 +39,7 @@ $sveaOrderId = ($quote->getPaymentReference())
     var sveacheckout = new SveaCheckout({
         postUrl: '<?= Mage::getUrl('sveacheckout/updateCart/updateCheckout', array('_secure' => true)) ?>',
         htmlAlert: null,
-        messageTimeout: 2000,
+        messageTimeout: 20000,
         sveaOrderId: '<?= $sveaOrderId ?>',
         inCheckout: 1,
         debug: 0

@@ -280,13 +280,13 @@ class Svea_Checkout_UpdateCartController
             $this->_addResponseMessage(
                 self::SVEA_CHECKOUT_RESPONSE_SUCCESS,
                 "Cart updated",
-                "Successful cart update"
+                __("Successful cart update")
             );
             $code = 200;
         } else {
             $this->_addResponseMessage(
                 self::SVEA_CHECKOUT_RESPONSE_ERROR,
-                "Cart updated unsuccessful",
+                __("Cart updated unsuccessful"),
                 $this->_getQuoteErrors()
             );
             $this->_addAlertBlockToResponse();

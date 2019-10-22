@@ -29,7 +29,7 @@ SveaCheckout.prototype = {
     this.opt.postUrl        = this.opt.postUrl || '/sveacheckout/cart/updateCheckout/';
     this.opt.htmlAlert      = this.opt.htmlAlert || 0;
     this.opt.sveaDebug      = this.opt.sveaDebug || 0;
-    this.opt.messageTimeout = this.opt.messageTimeout || 5000;
+    this.opt.messageTimeout = this.opt.messageTimeout || 20000;
     this.opt.debug          = this.opt.debug || 0;
     this.opt.inCheckout     = this.opt.inCheckout || 0;
 
@@ -230,8 +230,6 @@ SveaCheckout.prototype = {
    * Update Address
    */
   updateAddress: function (event) {
-    console.log('waaaat');
-
     if (typeof event == 'undefined') {
       return;
     }
@@ -481,6 +479,7 @@ SveaCheckout.prototype = {
     messageBox.removeClassName('hide');
     messageBox.setAttribute('data-style', type);
     messageBox.show();
+    messageBox.scrollIntoView();
     if (this.opt.messageTimeout !== 0) {
       setTimeout(function () {
         messageBox.fade().addClassName('hide');

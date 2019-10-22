@@ -80,6 +80,7 @@ class Svea_Checkout_Model_Payment_CreateOrder
                 ->save();
 
             Mage::logException($e);
+            $logger->writeToLog('Error while creating order' . $e->getMessage() . ' from quote ' . $quote->getId());
             $error = $e->getMessage();
         }
 
