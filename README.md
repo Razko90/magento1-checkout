@@ -1,3 +1,5 @@
+# Use this module at your own risk, Magento 1 has reached it's end of life and no longer receives any security updates. This means that if new vulnerabilities are found they won't be patched by Adobe. Migrate to Magento 2 if possible
+
 Requires 
 * Magento 1.9 (May work in previous releases as well, but the module is developed and tested in 1.9.2/3)
 * magento-hackaton-installer
